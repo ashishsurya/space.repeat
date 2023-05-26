@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react"
+import { Suspense, useEffect, useState } from "react"
+import Head from "next/head"
 import { useRouter } from "next/router"
-import { Loader2 } from "lucide-react"
-import {  useSetRecoilState } from "recoil"
+import { useSetRecoilState } from "recoil"
 
 import { appwrite } from "@/lib/appwrite"
 import { Header } from "@/components/Header"
+import { StacksContainer } from "@/components/StacksContainer"
+import { AppLoader } from "@/components/loader"
 
 import { userAtom } from "../atoms/user.atom"
 
@@ -28,16 +30,16 @@ export default function App() {
   }, [router, setLoadng, setUser])
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center h-screen border">
-        <Loader2 className="animate-spin h-20 w-20" />
-      </div>
-    )
+    return <AppLoader />
   }
 
   return (
-    <div className="">
+    <div className="flex min-h-screen flex-col gap-10">
+      <Head>
+        <title>app &middot; space.repeat</title>
+      </Head>
       <Header />
+      <StacksContainer />
     </div>
   )
 }

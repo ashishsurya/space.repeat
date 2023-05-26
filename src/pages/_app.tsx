@@ -1,5 +1,5 @@
 import type { AppType } from "next/app"
-import { Inter } from "next/font/google"
+import { Poppins } from "next/font/google"
 
 import "@/styles/globals.css"
 import { RecoilRoot } from "recoil"
@@ -7,7 +7,7 @@ import { RecoilRoot } from "recoil"
 import { Toast, ToastProvider } from "@/components/ui/toast"
 import { ThemeProvider } from "@/components/theme-provider"
 
-const font = Inter({
+export const font = Poppins({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 })
