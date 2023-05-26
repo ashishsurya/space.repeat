@@ -13,9 +13,9 @@ export const NewStackDialog = ({ children }: React.PropsWithChildren) => {
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className={cn("h-4/5 w-4/5" , font.className)}>
         <DialogHeader>
-          <DialogTitle>Edit profile</DialogTitle>
+          <DialogTitle>Create a new stack</DialogTitle>
           <DialogDescription>
-            Make changes to your profile here. Click save when you&apos;re done.
+            <p>Choose a name for your new stack, and add all flashcards </p>
           </DialogDescription>
         </DialogHeader>
         <div className="flex">
