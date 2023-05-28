@@ -1,4 +1,4 @@
-import { Account, Client, Databases, ID, Permission, Role } from "appwrite"
+import { Account, Client, Databases, ID, Permission, Query, Role } from "appwrite"
 
 const serverConfig = {
   endpoint: process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT!,
@@ -18,7 +18,10 @@ const api = {
   getStacksByUserId: async (id: string) => {
     return database.listDocuments(
       serverConfig.databaseId,
-      serverConfig.stacksCollectionId
+      serverConfig.stacksCollectionId,
+      [
+        Query.orderDesc("$createdAt"),
+      ]
     )
   },
 

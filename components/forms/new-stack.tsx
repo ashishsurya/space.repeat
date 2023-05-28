@@ -7,7 +7,7 @@ import {
   Loader2,
 } from "lucide-react"
 import { useFieldArray, useForm } from "react-hook-form"
-import { useMutation } from "react-query"
+import { useMutation, useQueryClient } from "react-query"
 import { useRecoilState, useRecoilValue } from "recoil"
 import { boolean, z } from "zod"
 
@@ -32,7 +32,8 @@ const newStackFormSchema = z.object({
     .max(50, "Stack title cannot be more than 50 characters"),
 })
 
-export const NewStackForm = () => {
+export const NewStackForm = ({ modalClodeRef }: { modalClodeRef: any }) => {
+  const queryClient = useQueryClient()
   const currUser = useRecoilValue(userAtom)
 
   const stackForm = useForm<z.infer<typeof newStackFormSchema>>({
@@ -45,7 +46,10 @@ export const NewStackForm = () => {
   const { mutate, isLoading: isCreatingNewStack } = useMutation(
     appwrite.api.createNewStack,
     {
-      onSuccess(data, variables, context) {},
+      onSuccess() {
+        queryClient.invalidateQueries("get-stacks")
+        modalClodeRef.current.click()
+      },
     }
   )
 
@@ -57,42 +61,17 @@ export const NewStackForm = () => {
     <Form {...stackForm}>
       <form
         onSubmit={stackForm.handleSubmit(handleNewStack)}
-        className="space-y-4"
+        className="space-y-4 flex flex-col items-start mt-5"
       >
-        <FormField
-          control={stackForm.control}
-          name="title"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <Input
-                  {...field}
-                  placeholder="Stack title"
-                  className=" w-fit border-primary bg-transparent pb-2 text-4xl  focus:border-b p-4 focus:outline-none placeholder:p-0"
-                  fullyCustomize={true}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+        <Input
+          {...stackForm.register("title")}
+          placeholder="Stack title"
+          className=" w-fit border-primary bg-transparent pb-2 text-4xl  focus:border-b focus:outline-none placeholder:p-0"
+          fullyCustomize={true}
         />
-        <div className="flex items-center gap-3">
-          <Button disabled={isCreatingNewStack}>
-            <div>
-              {isCreatingNewStack ? (
-                <Loader2 className="animate-spin" />
-              ) : (
-                "Submit"
-              )}
-            </div>
-          </Button>
-          <p className="text-xs text-muted-foreground flex items-center">
-            Click Enter{" "}
-            <span>
-              <CornerDownLeft className="w-3 h-3" />
-            </span>
-          </p>
-        </div>
+        <Button disabled={isCreatingNewStack}>
+          {isCreatingNewStack ? <Loader2 className="animate-spin" /> : "Submit"}
+        </Button>
       </form>
     </Form>
   )

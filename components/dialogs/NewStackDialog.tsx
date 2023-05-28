@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useRef } from "react"
 import { font } from "@/src/pages/_app"
 
 import { cn } from "@/lib/utils"
@@ -14,17 +14,17 @@ import {
 import { Separator } from "../ui/separator"
 
 export const NewStackDialog = ({ children }: React.PropsWithChildren) => {
+  const modalCloseRef = useRef(null)
+
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent
-        className={cn(
-          " h-fit w-fit",
-          font.className
-        )}
+        closeRef={modalCloseRef}
+        className={cn(" h-fit w-fit", font.className)}
       >
         <div className="">
-          <NewStackForm />
+          <NewStackForm modalClodeRef={modalCloseRef}/>
         </div>
       </DialogContent>
     </Dialog>
