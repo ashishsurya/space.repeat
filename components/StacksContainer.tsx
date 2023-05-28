@@ -1,6 +1,8 @@
 import Image from "next/image"
+import { userAtom } from "@/src/atoms/user.atom"
 import { Loader2, Plus } from "lucide-react"
-import useSwr from "swr"
+import { useQuery } from "react-query"
+import { useRecoilValue } from "recoil"
 
 import { appwrite } from "@/lib/appwrite"
 
@@ -8,8 +10,9 @@ import { NewStackDialog } from "./dialogs/NewStackDialog"
 import { Button } from "./ui/button"
 
 export const StacksContainer = () => {
-  const { data, error, isLoading, isValidating } = useSwr("getStacks", () =>
-    appwrite.api.getStacksByUserId("12")
+  const currUser = useRecoilValue(userAtom)
+  const { data, error, isLoading } = useQuery("get-stacks", () =>
+    appwrite.api.getStacksByUserId(currUser?.$id!)
   )
 
   if (error) {
@@ -17,8 +20,6 @@ export const StacksContainer = () => {
       <pre className="px-8 text-red-500">{JSON.stringify(error, null, 2)}</pre>
     )
   }
-
-  console.log(data)
 
   return (
     <div className="flex flex-1 flex-col gap-5 px-8 ">
@@ -33,35 +34,14 @@ export const StacksContainer = () => {
           </Button>
         </NewStackDialog>
       </div>
-      <div className="flex flex-1 items-center justify-center">
-        {isLoading || isValidating ? (
-          <>
-            <div className="">
-              <Loader2 className="h-10 w-10 animate-spin" />
-            </div>
-          </>
-        ) : (
-          <>
-            {data?.documents && data.total > 0 ? (
-              <>
-                <div>{/* return all stacks here */}</div>
-              </>
-            ) : (
-              <>
-                <div className="">
-                  <Image
-                    className="cursor-pointer"
-                    src="/nostacks.svg"
-                    alt="no-stacks-svg"
-                    width={400}
-                    height={500}
-                  />
-                </div>
-              </>
-            )}
-          </>
-        )}
-      </div>
+
+      {isLoading && (
+        <div className="flex items-center justify-center">
+          <Loader2 className="animate-spin w-10 h-10" />
+        </div>
+      )}
+
+      {data?.documents && data.documents.length > 0 ? <div></div> : <div></div>}
     </div>
   )
 }

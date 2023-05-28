@@ -1,4 +1,4 @@
-import { Account, Client, Databases, Permission, Role } from "appwrite"
+import { Account, Client, Databases, ID, Permission, Role } from "appwrite"
 
 const serverConfig = {
   endpoint: process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT!,
@@ -19,6 +19,25 @@ const api = {
     return database.listDocuments(
       serverConfig.databaseId,
       serverConfig.stacksCollectionId
+    )
+  },
+
+  createNewStack: async ({
+    title,
+    currUserId,
+  }: {
+    title: string
+    currUserId: string
+  }) => {
+    return database.createDocument(
+      serverConfig.databaseId,
+      serverConfig.stacksCollectionId,
+      ID.unique(),
+      { title },
+      [
+        Permission.read(Role.user(currUserId)),
+        Permission.write(Role.user(currUserId)),
+      ]
     )
   },
 }

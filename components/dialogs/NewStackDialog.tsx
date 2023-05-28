@@ -1,29 +1,31 @@
-import { cn } from "@/lib/utils"
-import { font } from "@/src/pages/_app"
 import React from "react"
-import { Button } from "../ui/button"
+import { font } from "@/src/pages/_app"
 
+import { cn } from "@/lib/utils"
 
-
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog"
+import { NewStackForm } from "../forms/new-stack"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTrigger,
+} from "../ui/dialog"
+import { Separator } from "../ui/separator"
 
 export const NewStackDialog = ({ children }: React.PropsWithChildren) => {
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className={cn("h-4/5 w-4/5" , font.className)}>
-        <DialogHeader>
-          <DialogTitle>Create a new stack</DialogTitle>
-          <DialogDescription>
-            <p>Choose a name for your new stack, and add all flashcards </p>
-          </DialogDescription>
-        </DialogHeader>
-        <div className="flex">
-          <p>Nice choice for creating a new stack</p>
+      <DialogContent
+        className={cn(
+          " h-fit w-fit",
+          font.className
+        )}
+      >
+        <div className="">
+          <NewStackForm />
         </div>
-        <DialogFooter>
-          <Button type="submit">Save changes</Button>
-        </DialogFooter>
       </DialogContent>
     </Dialog>
   )
