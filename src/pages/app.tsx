@@ -12,22 +12,21 @@ import { userAtom } from "../atoms/user.atom"
 
 export default function App() {
   const router = useRouter()
-  const [loading, setLoadng] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false)
   const setUser = useSetRecoilState(userAtom)
-
   useEffect(() => {
     ;(async () => {
       try {
-        setLoadng(true)
+        setLoading(true)
         const user = await appwrite.account.get()
         setUser(user)
       } catch (error) {
-        router.replace("/login")
+        void router.replace("/login")
       } finally {
-        setLoadng(false)
+        setLoading(false)
       }
     })()
-  }, [router, setLoadng, setUser])
+  }, [router, setLoading, setUser])
 
   if (loading) {
     return <AppLoader />

@@ -24,7 +24,7 @@ export const NewStackDialog = ({ children }: React.PropsWithChildren) => {
         className={cn(" h-fit w-fit", font.className)}
       >
         <div className="">
-          <NewStackForm modalClodeRef={modalCloseRef}/>
+          <NewStackForm modalCloseRef={modalCloseRef}/>
         </div>
       </DialogContent>
     </Dialog>

@@ -32,7 +32,7 @@ const newStackFormSchema = z.object({
     .max(50, "Stack title cannot be more than 50 characters"),
 })
 
-export const NewStackForm = ({ modalClodeRef }: { modalClodeRef: any }) => {
+export const NewStackForm = ({ modalCloseRef }: { modalCloseRef: any }) => {
   const queryClient = useQueryClient()
   const currUser = useRecoilValue(userAtom)
 
@@ -47,8 +47,8 @@ export const NewStackForm = ({ modalClodeRef }: { modalClodeRef: any }) => {
     appwrite.api.createNewStack,
     {
       onSuccess() {
-        queryClient.invalidateQueries("get-stacks")
-        modalClodeRef.current.click()
+        void queryClient.invalidateQueries("get-stacks")
+        modalCloseRef.current.click()
       },
     }
   )

@@ -5,6 +5,7 @@ import { useQuery } from "react-query"
 import { useRecoilValue } from "recoil"
 
 import { appwrite } from "@/lib/appwrite"
+import { cn } from "@/lib/utils"
 
 import { NewStackDialog } from "./dialogs/NewStackDialog"
 import { Button } from "./ui/button"
@@ -42,10 +43,16 @@ export const StacksContainer = () => {
       )}
 
       {data?.documents && data.documents.length > 0 ? (
-        <div className="grid gird-cols-1 md:grid-cols-4 mx-4 md:mx-12 gap-5">
+        <div className="flex flex-row flex-wrap items-center mx-4 gap-8">
           {data.documents.map((stack) => (
-            <div className="p-4 border">
-              <p>{stack.title}</p>
+            <div className="  h-[250px] w-[300px] relative">
+              <div className="absolute w-full h-full border translate-x-4 translate-y-4  rounded-lg  "></div>
+              <div
+                className="z-[5] absolute w-full h-full border translate-x-2 translate-y-2  rounded-lg   bg-primary-foreground"></div>
+              <div className="z-[10] absolute p-4 flex items-center justify-center w-full rounded-lg h-full bg-primary-foreground
+     border-2">
+                <h1 className="capitalize text-3xl font-bold tracking-wide ">{stack.title}</h1>
+              </div>
             </div>
           ))}
         </div>

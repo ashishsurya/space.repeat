@@ -11,8 +11,8 @@ export const LogoutButton = () => {
       size={"sm"}
       variant={"destructive"}
       onClick={async () => {
-        await appwrite.account.deleteSession("current")
-        router.replace("/login")
+        await appwrite.account.deleteSession("current");
+        router.push("/login")
       }}
     >
       Logout
