@@ -1,5 +1,5 @@
 import type { AppType } from "next/app"
-import { JetBrains_Mono } from "next/font/google"
+import { DM_Mono } from "next/font/google"
 
 import "@/styles/globals.css"
 import { QueryClient, QueryClientProvider } from "react-query"
@@ -8,9 +8,9 @@ import { RecoilRoot } from "recoil"
 import { Toast, ToastProvider } from "@/components/ui/toast"
 import { ThemeProvider } from "@/components/theme-provider"
 
-export const font = JetBrains_Mono({
+export const font = DM_Mono({
   subsets: ["latin"],
-  weight: ["400", "500", "700", ],
+  weight: ["300", "400", "500", ],
 })
 
 const client = new QueryClient()

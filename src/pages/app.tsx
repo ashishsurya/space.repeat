@@ -33,7 +33,7 @@ export default function App() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col gap-10">
+    <div className="flex min-h-screen flex-col gap-5">
       <Head>
         <title>app &middot; space.repeat</title>
       </Head>

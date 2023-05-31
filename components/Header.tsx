@@ -19,7 +19,7 @@ export const Header = () => {
   )
 
   return (
-    <div className="flex p-8 justify-between  border-b items-center">
+    <div className="flex p-8 justify-between  items-center">
       <Logo />
       <div className="flex  items-center justify-end gap-5">
         <ThemeToggle />

@@ -6,6 +6,7 @@ import { appwrite } from "@/lib/appwrite"
 
 import { Button } from "./ui/button"
 import { useToast } from "./ui/use-toast"
+import {getHost} from "@/lib/utils";
 
 export const SocialLoginButton = ({
   provider,
@@ -18,8 +19,8 @@ export const SocialLoginButton = ({
     try {
       appwrite.account.createOAuth2Session(
         provider,
-        "http://localhost:3000/app",
-        "http://localhost:3000/login"
+        `${getHost()}/app`,
+        `${getHost()}/login`
       )
     } catch (error) {
       toast({ title: "Error signing you in " })
