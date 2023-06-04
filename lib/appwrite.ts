@@ -1,4 +1,5 @@
 import { Account, Client, Databases, ID, Permission, Query, Role } from "appwrite"
+import { Stack } from "./types"
 
 const serverConfig = {
   endpoint: process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT!,
@@ -15,12 +16,13 @@ const database = new Databases(client)
 client.setEndpoint(serverConfig.endpoint).setProject(serverConfig.project)
 
 const api = {
-  getStacksByUserId: async (id: string) => {
-    return database.listDocuments(
+  getStacksByUserId: async ({id} : {id:string}) => {
+    return database.listDocuments<Stack>(
       serverConfig.databaseId,
       serverConfig.stacksCollectionId,
       [
-        Query.orderDesc("$createdAt"),
+        Query.equal("user", id),
+        Query.orderAsc("$createdAt")
       ]
     )
   },
@@ -32,17 +34,21 @@ const api = {
     title: string
     currUserId: string
   }) => {
-    return database.createDocument(
+    return database.createDocument<Stack>(
       serverConfig.databaseId,
       serverConfig.stacksCollectionId,
       ID.unique(),
-      { title },
+      { title, user : currUserId },
       [
         Permission.read(Role.user(currUserId)),
         Permission.write(Role.user(currUserId)),
       ]
     )
   },
+
+  deleteStack: async ({id} : {id : string}) => { 
+    return database.deleteDocument(serverConfig.databaseId, serverConfig.stacksCollectionId, id);
+  }
 }
 
 export const appwrite = { account, database, api }

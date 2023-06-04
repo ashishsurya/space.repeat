@@ -1,8 +1,9 @@
 import {Models} from "appwrite";
 import {useRecoilState} from "recoil";
 import {StackViewDialog} from "@/components/dialogs/StackViewDialog";
+import { Stack } from "@/lib/types";
 
-export const HomePageStackPreview = ({stack}: { stack: Models.Document }) => {
+export const HomePageStackPreview = ({stack}: { stack: Stack }) => {
 
 
   return (
