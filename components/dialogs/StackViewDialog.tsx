@@ -1,22 +1,26 @@
 import React from "react"
 import { font } from "@/src/pages/_app"
-import { Models } from "appwrite"
 import { useMutation, useQueryClient } from "react-query"
 
 import { appwrite } from "@/lib/appwrite"
+import { Stack } from "@/lib/types"
 import { cn, displayDateTime } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
-import { NewStackForm } from "@/components/forms/new-stack"
-import { Stack } from "@/lib/types"
+
+import { FlashCardPreview } from "../FlashCardPreview"
+import { ScrollArea } from "../ui/scroll-area"
+import { useToast } from "../ui/use-toast"
 
 export const StackViewDialog = ({
   children,
   stack,
-}: React.PropsWithChildren<{ stack: Stack }>) => {
+}: React.PropsWithChildren<{ stack: Stack }>): React.JSX.Element => {
+  const { toast } = useToast()
   const client = useQueryClient()
   const { mutate, isLoading } = useMutation(appwrite.api.deleteStack, {
     onSuccess() {
+      toast({ title: "Stack deleted successfully" })
       client.invalidateQueries("get-stacks")
     },
   })
@@ -24,14 +28,14 @@ export const StackViewDialog = ({
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent
-        className={cn("w-full h-full  md:h-3/5 md:w-3/5", font.className)}
-      >
-        <div className="flex flex-col mt-10">
+      <DialogContent className={cn("h-full w-full ", font.className)}>
+        <div className="mt-10 flex flex-col gap-10">
           <div
-            className={cn("flex items-center justify-between border-b pb-2")}
+            className={cn(
+              "flex items-center justify-between border-b px-4 pb-2"
+            )}
           >
-            <h3 className={cn("text-4xl font-bold select-none")}>
+            <h3 className={cn("select-none text-4xl font-bold")}>
               {stack.title}
             </h3>
             <p className={cn("text-sm text-muted-foreground")}>
@@ -39,9 +43,14 @@ export const StackViewDialog = ({
             </p>
           </div>
 
-          <div className={"flex-1"}></div>
+          <div className=" grid flex-1  auto-cols-[80%] grid-flow-col  gap-10 overflow-x-auto sm:auto-cols-[50%] md:auto-cols-[40%]">
+            <FlashCardPreview
+              front={{ text: "Prompt" }}
+              back={{ text: "Answer" }}
+            />
+          </div>
 
-          <div>
+          <div className="self-end">
             <Button
               variant={"destructive"}
               onClick={() => mutate({ id: stack.$id })}

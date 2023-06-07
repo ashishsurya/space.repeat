@@ -8,7 +8,7 @@ import {
 } from "lucide-react"
 import { useFieldArray, useForm } from "react-hook-form"
 import { useMutation, useQueryClient } from "react-query"
-import { useRecoilState, useRecoilValue } from "recoil"
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil"
 import { boolean, z } from "zod"
 
 import { appwrite } from "@/lib/appwrite"
@@ -24,6 +24,7 @@ import {
   FormMessage,
 } from "../ui/form"
 import { Input } from "../ui/input"
+import { stacksAtom } from "@/src/atoms/stacks.atom"
 
 const newStackFormSchema = z.object({
   title: z
@@ -34,7 +35,8 @@ const newStackFormSchema = z.object({
 
 export const NewStackForm = ({ modalCloseRef }: { modalCloseRef: any }) => {
   const queryClient = useQueryClient()
-  const currUser = useRecoilValue(userAtom)
+  const currUser = useRecoilValue(userAtom);
+  const setStacks = useSetRecoilState(stacksAtom);
 
   const stackForm = useForm<z.infer<typeof newStackFormSchema>>({
     resolver: zodResolver(newStackFormSchema),
@@ -46,8 +48,14 @@ export const NewStackForm = ({ modalCloseRef }: { modalCloseRef: any }) => {
   const { mutate, isLoading: isCreatingNewStack } = useMutation(
     appwrite.api.createNewStack,
     {
-      onSuccess() {
-        void queryClient.invalidateQueries("get-stacks")
+      onSuccess(data) {
+        setStacks(prevStacks => {
+          if (!prevStacks) {
+            return [data];
+          } else {
+            return [data, ...prevStacks];
+          }
+        })
         modalCloseRef.current.click()
       },
     }
@@ -66,7 +74,7 @@ export const NewStackForm = ({ modalCloseRef }: { modalCloseRef: any }) => {
         <Input
           {...stackForm.register("title")}
           placeholder="Stack title"
-          className=" w-fit border-primary bg-transparent pb-2 text-4xl  focus:border-b focus:outline-none placeholder:p-0"
+          className="w-full md:w-fit border-primary bg-transparent pb-2 text-4xl  focus:border-b focus:outline-none placeholder:p-0"
           fullyCustomize={true}
         />
         <Button disabled={isCreatingNewStack}>

@@ -21,11 +21,9 @@ export const NewStackDialog = ({ children }: React.PropsWithChildren) => {
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent
         closeRef={modalCloseRef}
-        className={cn(" h-fit w-fit", font.className)}
+        className={cn("w-full h-fit top-1/2 -translate-y-1/2 md:h-fit md:w-fit", font.className)}
       >
-        <div className="">
-          <NewStackForm modalCloseRef={modalCloseRef}/>
-        </div>
+        <NewStackForm modalCloseRef={modalCloseRef} />
       </DialogContent>
     </Dialog>
   )

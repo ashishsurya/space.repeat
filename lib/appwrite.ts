@@ -1,4 +1,13 @@
-import { Account, Client, Databases, ID, Permission, Query, Role } from "appwrite"
+import {
+  Account,
+  Client,
+  Databases,
+  ID,
+  Permission,
+  Query,
+  Role,
+} from "appwrite"
+
 import { Stack } from "./types"
 
 const serverConfig = {
@@ -16,14 +25,11 @@ const database = new Databases(client)
 client.setEndpoint(serverConfig.endpoint).setProject(serverConfig.project)
 
 const api = {
-  getStacksByUserId: async ({id} : {id:string}) => {
+  getStacksByUserId: async ({ id }: { id: string }) => {
     return database.listDocuments<Stack>(
       serverConfig.databaseId,
       serverConfig.stacksCollectionId,
-      [
-        Query.equal("user", id),
-        Query.orderAsc("$createdAt")
-      ]
+      [Query.equal("user", id), Query.orderDesc("$createdAt")]
     )
   },
 
@@ -38,7 +44,7 @@ const api = {
       serverConfig.databaseId,
       serverConfig.stacksCollectionId,
       ID.unique(),
-      { title, user : currUserId },
+      { title, user: currUserId },
       [
         Permission.read(Role.user(currUserId)),
         Permission.write(Role.user(currUserId)),
@@ -46,9 +52,13 @@ const api = {
     )
   },
 
-  deleteStack: async ({id} : {id : string}) => { 
-    return database.deleteDocument(serverConfig.databaseId, serverConfig.stacksCollectionId, id);
-  }
+  deleteStack: async ({ id }: { id: string }) => {
+    return database.deleteDocument(
+      serverConfig.databaseId,
+      serverConfig.stacksCollectionId,
+      id
+    )
+  },
 }
 
 export const appwrite = { account, database, api }
