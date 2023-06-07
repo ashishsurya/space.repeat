@@ -1,5 +1,14 @@
-import { Models } from "appwrite";
+import { Models } from "appwrite"
 
-export type Stack = Models.Document & { title: string, user: string }
+export interface Stack extends Models.Document {
+  title: string
+  user: string
+}
 
-export interface FlashCardContent { text: string; img?: string }
+export interface FlashCard extends Models.Document {
+  front: string
+  back: string
+  stack_id: string
+  front_img_url?: string
+  back_img_url?: string
+}
