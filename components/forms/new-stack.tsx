@@ -1,30 +1,21 @@
 import { userAtom } from "@/src/atoms/user.atom"
 import { zodResolver } from "@hookform/resolvers/zod"
 import {
-  ArrowDownLeftIcon,
-  ArrowDownRightIcon,
-  CornerDownLeft,
-  Loader2,
+  Loader2
 } from "lucide-react"
-import { useFieldArray, useForm } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import { useMutation, useQueryClient } from "react-query"
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil"
-import { boolean, z } from "zod"
+import { useRecoilValue, useSetRecoilState } from "recoil"
+import { z } from "zod"
 
 import { appwrite } from "@/lib/appwrite"
 
+import { stacksAtom } from "@/src/atoms/stacks.atom"
 import { Button } from "../ui/button"
 import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
+  Form
 } from "../ui/form"
 import { Input } from "../ui/input"
-import { stacksAtom } from "@/src/atoms/stacks.atom"
 
 const newStackFormSchema = z.object({
   title: z

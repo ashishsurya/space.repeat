@@ -1,6 +1,9 @@
-import React from "react"
+import React, { useRef } from "react"
+import { stacksAtom } from "@/src/atoms/stacks.atom"
 import { font } from "@/src/pages/_app"
+import { ArrowLeft, SkipBack } from "lucide-react"
 import { useMutation, useQueryClient } from "react-query"
+import { useSetRecoilState } from "recoil"
 
 import { appwrite } from "@/lib/appwrite"
 import { Stack } from "@/lib/types"
@@ -17,25 +20,41 @@ export const StackViewDialog = ({
   stack,
 }: React.PropsWithChildren<{ stack: Stack }>): React.JSX.Element => {
   const { toast } = useToast()
-  const client = useQueryClient()
+  const setStacks = useSetRecoilState(stacksAtom)
+
+  // to close modal after deleting the stack
+  const deleteStackCloseRef = useRef<HTMLButtonElement>(null)
+
   const { mutate, isLoading } = useMutation(appwrite.api.deleteStack, {
-    onSuccess() {
-      toast({ title: "Stack deleted successfully" })
-      client.invalidateQueries("get-stacks")
+    onSuccess(data) {
+      deleteStackCloseRef.current?.click();
+      setStacks((oldStacks) => {
+        if (!oldStacks) {
+          return null
+        } else {
+          return oldStacks.filter((s) => s.$id !== stack.$id)
+        }
+      })
     },
   })
 
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className={cn("h-full w-full ", font.className)}>
+      <DialogContent
+        closeRef={deleteStackCloseRef}
+        className={cn("h-full w-full ", font.className)}
+      >
         <div className="mt-10 flex flex-col gap-10">
           <div
             className={cn(
               "flex items-center justify-between border-b px-4 pb-2"
             )}
           >
-            <h3 className={cn("select-none text-4xl font-bold")}>
+            <Button variant={"ghost"}>
+              <ArrowLeft className="w-5 h-5" />
+            </Button>
+            <h3 className={cn("select-none text-xl font-bold  md:text-4xl md:font-semibold")}>
               {stack.title}
             </h3>
             <p className={cn("text-sm text-muted-foreground")}>

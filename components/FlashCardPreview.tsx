@@ -7,5 +7,7 @@ export const FlashCardPreview = ({
   front: FlashCardContent
   back: FlashCardContent
 }) => {
-  return <div></div>
+  return <div>
+    
+  </div>
 }
