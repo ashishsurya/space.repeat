@@ -27,7 +27,7 @@ export const StackViewDialog = ({
 
   const { mutate, isLoading } = useMutation(appwrite.api.deleteStack, {
     onSuccess(data) {
-      deleteStackCloseRef.current?.click();
+      deleteStackCloseRef.current?.click()
       setStacks((oldStacks) => {
         if (!oldStacks) {
           return null
@@ -51,10 +51,17 @@ export const StackViewDialog = ({
               "flex items-center justify-between border-b px-4 pb-2"
             )}
           >
-            <Button variant={"ghost"}>
+            <Button
+              onClick={() => deleteStackCloseRef.current?.click()}
+              variant={"ghost"}
+            >
               <ArrowLeft className="w-5 h-5" />
             </Button>
-            <h3 className={cn("select-none text-xl font-bold  md:text-4xl md:font-semibold")}>
+            <h3
+              className={cn(
+                "select-none text-xl font-bold  md:text-4xl md:font-semibold"
+              )}
+            >
               {stack.title}
             </h3>
             <p className={cn("text-sm text-muted-foreground")}>

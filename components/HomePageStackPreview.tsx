@@ -9,8 +9,8 @@ export const HomePageStackPreview = ({ stack }: { stack: Stack }) => {
   return (
     <StackViewDialog stack={stack}>
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
+        initial={{ opacity: 0, y : 20 }}
+        animate={{ opacity: 1 , y : 0 }}
         exit={{ opacity: 0 }}
         tabIndex={0}
         className="group  relative  aspect-[3/2] w-[300px]  cursor-pointer duration-500 hover:scale-110 focus:scale-110  md:w-[250px] "
