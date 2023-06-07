@@ -3,17 +3,15 @@ import { userAtom } from "@/src/atoms/user.atom"
 import { useRecoilState } from "recoil"
 
 import { appwrite } from "@/lib/appwrite"
+import { getHost } from "@/lib/utils"
 
 import { Button } from "./ui/button"
-import { useToast } from "./ui/use-toast"
-import {getHost} from "@/lib/utils";
 
 export const SocialLoginButton = ({
   provider,
   children,
 }: React.PropsWithChildren<{ provider: "google" | "facebook" | "github" }>) => {
   const [user, setUser] = useRecoilState(userAtom)
-  const { toast } = useToast()
 
   const handleSocialLogin = useCallback(() => {
     try {
@@ -22,10 +20,8 @@ export const SocialLoginButton = ({
         `${getHost()}/app`,
         `${getHost()}/login`
       )
-    } catch (error) {
-      toast({ title: "Error signing you in " })
-    }
-  }, [provider, toast])
+    } catch (error) {}
+  }, [provider])
 
   return (
     <Button
