@@ -1,7 +1,5 @@
 import { useRouter } from "next/router"
-
 import { appwrite } from "@/lib/appwrite"
-
 import { Button } from "./ui/button"
 
 export const LogoutButton = () => {
