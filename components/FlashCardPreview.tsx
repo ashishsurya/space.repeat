@@ -1,4 +1,4 @@
-import { FlashCardContent } from "@/lib/types"
+import type { FlashCardContent } from "@/lib/types"
 
 export const FlashCardPreview = ({
   front,
@@ -7,7 +7,16 @@ export const FlashCardPreview = ({
   front: FlashCardContent
   back: FlashCardContent
 }) => {
-  return <div>
+  return <div id="flashcard-wrapper">
     
   </div>
+}
+
+
+const FlashCardPreviewFront = ({ }: FlashCardContent) => {
+  return (
+    <div>
+      
+    </div>
+  )
 }

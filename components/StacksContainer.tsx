@@ -12,6 +12,7 @@ import { HomePageStackPreview } from "@/components/HomePageStackPreview"
 
 import { NewStackDialog } from "./dialogs/NewStackDialog"
 import { Button } from "./ui/button"
+import { Skeleton } from "./ui/skeleton"
 
 export const StacksContainer = () => {
   return (
@@ -56,8 +57,11 @@ const Stacks = () => {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center flex-1">
-        <Loader2 className="h-10 w-10 animate-spin" />
+      <div className=" flex flex-row flex-wrap items-center gap-8 lg:mx-20 ">
+        {Array(20).map((_, i) => {
+          console.log(i)
+          return (<Skeleton key={i} className="aspect-[3/2] w-[300px]" />)
+        })}
       </div>
     )
   }
