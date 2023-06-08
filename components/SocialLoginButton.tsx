@@ -25,7 +25,6 @@ export const SocialLoginButton = ({
 
   return (
     <Button
-      disabled={provider === "facebook"}
       onClick={handleSocialLogin}
       className="disabled:cursor-not-allowed"
     >
