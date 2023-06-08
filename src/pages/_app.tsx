@@ -15,7 +15,9 @@ export const font = DM_Mono({
 
 const client = new QueryClient({
   defaultOptions: {
-    queries: {},
+    queries: {
+      refetchOnWindowFocus : false
+    },
   },
 })
 
