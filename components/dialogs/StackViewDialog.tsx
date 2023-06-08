@@ -3,6 +3,7 @@ import { flashCardsAtom } from "@/src/atoms/flashcards.atom"
 import { stacksAtom } from "@/src/atoms/stacks.atom"
 import { font } from "@/src/pages/_app"
 import { Player } from "@lottiefiles/react-lottie-player"
+import { AnimatePresence } from "framer-motion"
 import { ArrowLeft } from "lucide-react"
 import { useMutation, useQuery } from "react-query"
 import { useRecoilState, useSetRecoilState } from "recoil"
@@ -26,7 +27,7 @@ export const StackViewDialog = ({
   const deleteStackCloseRef = useRef<HTMLButtonElement>(null)
 
   const { mutate, isLoading } = useMutation(appwrite.api.deleteStack, {
-    onSuccess(data) {
+    onSuccess() {
       deleteStackCloseRef.current?.click()
       setStacks((oldStacks) => {
         if (!oldStacks) {
@@ -74,7 +75,9 @@ export const StackViewDialog = ({
           </Suspense>
 
           <div className="self-end space-x-5">
-            <Button>Add New Flashcard</Button>
+            <NewFlashCardDialog stack_id={stack.$id}>
+              <Button>Add New Flashcard</Button>
+            </NewFlashCardDialog>
             <Button
               variant={"destructive"}
               onClick={() => mutate({ id: stack.$id })}
@@ -90,7 +93,7 @@ export const StackViewDialog = ({
 
 const FlashCardsWrapper = ({ stack_id }: { stack_id: string }) => {
   const [flashcards, setFlashcards] = useRecoilState(flashCardsAtom)
-  const {} = useQuery(
+  const { isFetching } = useQuery(
     "get-flashcards-by-stack-id",
     () => appwrite.api.getAllFlashCardsByStackId({ stack_id: stack_id }),
     {
@@ -102,31 +105,36 @@ const FlashCardsWrapper = ({ stack_id }: { stack_id: string }) => {
 
   return (
     <div className="flex-1 mx-5 px-10 bg-secondary rounded-2xl overflow-scroll">
-      {flashcards && flashcards.length > 0 ? (
+      {isFetching && <p>Loading......</p>}
+      {!isFetching && (
         <>
-          {flashcards.map((flashcard) => (
-            <FlashCardPreview
-              front={flashcard.front}
-              front_img_url={flashcard.back_img_url}
-            />
-          ))}
+          {flashcards && flashcards.length > 0 ? (
+            <AnimatePresence>
+              {flashcards.map((flashcard) => (
+                <FlashCardPreview
+                  front={flashcard.front}
+                  front_img_url={flashcard.back_img_url}
+                />
+              ))}
+            </AnimatePresence>
+          ) : (
+            <NewFlashCardDialog stack_id={stack_id}>
+              <div className={cn("flex flex-col items-center  ")}>
+                <Player
+                  autoplay={true}
+                  loop
+                  src={
+                    "https://assets3.lottiefiles.com/packages/lf20_dhtOaoOnRb.json"
+                  }
+                  className={"w-full md:w-[500px] aspect-video "}
+                />
+                <p className="text-muted-foreground text-2xl">
+                  No flashcards here, Add one by clicking here.
+                </p>
+              </div>
+            </NewFlashCardDialog>
+          )}
         </>
-      ) : (
-        <NewFlashCardDialog stack_id={stack_id}>
-          <div className={cn("flex flex-col items-center  ")}>
-            <Player
-              autoplay={true}
-              loop
-              src={
-                "https://assets3.lottiefiles.com/packages/lf20_dhtOaoOnRb.json"
-              }
-              className={"w-full md:w-[500px] aspect-video "}
-            />
-            <p className="text-muted-foreground text-2xl">
-              No flashcards here, Add one by clicking here.
-            </p>
-          </div>
-        </NewFlashCardDialog>
       )}
     </div>
   )

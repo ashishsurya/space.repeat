@@ -13,7 +13,11 @@ export const font = DM_Mono({
   weight: ["300", "400", "500"],
 })
 
-const client = new QueryClient()
+const client = new QueryClient({
+  defaultOptions: {
+    queries: {},
+  },
+})
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
@@ -21,7 +25,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
       <RecoilRoot>
         <QueryClientProvider client={client}>
           <div className={`${font.className} min-h-screen `}>
-            <Toaster position="top-center"/>
+            <Toaster position="top-center" />
             <Component {...pageProps} />
           </div>
         </QueryClientProvider>

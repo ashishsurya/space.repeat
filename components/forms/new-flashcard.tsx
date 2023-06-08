@@ -1,6 +1,7 @@
 import { RefObject } from "react"
 import { flashCardsAtom } from "@/src/atoms/flashcards.atom"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { Loader2 } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { useMutation } from "react-query"
 import ReactTextareaAutosize from "react-textarea-autosize"
@@ -21,6 +22,7 @@ const newFlashCardFormSchema = z.object({
     .min(1, "Answer of the flashcard cannot be empty")
     .max(100, "Answer of the flashcard cannot be more than 100 characters"),
 })
+
 export const NewFlashCardForm = ({
   stack_id,
   newFlashCardDialogCloseRef,
@@ -42,10 +44,10 @@ export const NewFlashCardForm = ({
   })
 
   const { mutate, isLoading } = useMutation(appwrite.api.addNewFlashCard, {
-    onSuccess(data, variables, context) {
+    onSuccess(data) {
       setFlashCards((oldFlashCards) => {
         if (!oldFlashCards) {
-          return null
+          return [data]
         } else {
           return [data, ...oldFlashCards]
         }
@@ -70,16 +72,18 @@ export const NewFlashCardForm = ({
       <ReactTextareaAutosize
         maxRows={5}
         {...register("front")}
-        className="w-full rounded-xl border border-primary bg-transparent px-8  py-4 pb-2 text-2xl placeholder:p-0 focus:border-2 focus:outline-none   "
+        className="w-full resize-none border-b border-primary bg-transparent   py-4 pb-2 text-2xl placeholder:p-0 focus:border-b-2 focus:outline-none   "
         placeholder="Enter prompt , ex. What is the capital of France?"
       />
       <ReactTextareaAutosize
         maxRows={5}
         {...register("back")}
         placeholder={"Enter answer, ex. Paris"}
-        className="w-full rounded-xl border border-primary bg-transparent px-8  py-4 pb-2 text-2xl placeholder:p-0 focus:border-2 focus:outline-none "
+        className="w-full resize-none border-b border-primary bg-transparent   py-4 pb-2 text-2xl placeholder:p-0 focus:border-b-2 focus:outline-none "
       />
-      <Button className="self-start">Create</Button>
+      <Button className="self-start" disabled={isLoading}>
+        {isLoading ? <Loader2 className="w-5 h-5 animate-spin"/> : "Create"}
+      </Button>
     </form>
   )
 }
