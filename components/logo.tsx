@@ -5,5 +5,5 @@ import { cn } from "@/lib/utils"
 const mono = DM_Mono({ weight: ["500"], subsets: ["latin"] })
 
 export const Logo = () => {
-  return <div className={cn(mono.className , "select-none md:text-4xl font-bold")}>space.repeat</div>
+  return <div className={cn(mono.className , "select-none md:text-4xl text-primary font-bold")}>space.repeat</div>
 }

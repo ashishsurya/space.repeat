@@ -6,7 +6,6 @@ import { Toaster } from "react-hot-toast"
 import { QueryClient, QueryClientProvider } from "react-query"
 import { RecoilRoot } from "recoil"
 
-import { ThemeProvider } from "@/components/theme-provider"
 
 export const font = DM_Mono({
   subsets: ["latin"],
@@ -23,7 +22,6 @@ const client = new QueryClient({
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
       <RecoilRoot>
         <QueryClientProvider client={client}>
           <div className={`${font.className} min-h-screen `}>
@@ -32,7 +30,6 @@ const MyApp: AppType = ({ Component, pageProps }) => {
           </div>
         </QueryClientProvider>
       </RecoilRoot>
-    </ThemeProvider>
   )
 }
 

@@ -4,7 +4,6 @@ import { useRecoilValue } from "recoil"
 
 import { LogoutButton } from "./LogoutButton"
 import { Logo } from "./logo"
-import { ThemeToggle } from "./theme-toggle"
 import { Avatar, AvatarFallback } from "./ui/avatar"
 
 export const Header = () => {
@@ -22,11 +21,10 @@ export const Header = () => {
     <div className="flex p-8 justify-between  items-center">
       <Logo />
       <div className="flex  items-center justify-end gap-5">
-        <ThemeToggle />
         <Avatar>
           <AvatarFallback>{getFallbackName(user)}</AvatarFallback>
         </Avatar>
-        <LogoutButton />
+        <LogoutButton/>
       </div>
     </div>
   )
