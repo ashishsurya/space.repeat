@@ -18,8 +18,8 @@ export const HomePageStackPreview = ({ stack }: { stack: Stack }) => {
         <div className="absolute h-full w-full translate-x-4 translate-y-4 rounded-lg border-2 border-accent  "></div>
         <div className="absolute z-[5] h-full w-full translate-x-2 translate-y-2 rounded-lg  border-2 border-accent bg-secondary   "></div>
         <div
-          className="absolute z-[10] flex h-full w-full items-center justify-center rounded-lg border-2  bg-secondary p-4
-     border-accent"
+          className="absolute z-[10] flex h-full w-full items-center justify-center rounded-lg border-2  border-accent bg-secondary
+     p-4"
         >
           <h1 className="text-3xl font-bold capitalize tracking-wide ">
             {stack.title}
