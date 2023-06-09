@@ -25,18 +25,27 @@ export const StackViewDialogSidebar = ({ stack }: { stack: Stack }) => {
     }
   )
   return (
-    <div className="w-[350px] border px-2 pt-5">
-      <h2 className="text-3xl text-primary tracking-tighter font-bold">{stack.title}</h2>
-      <p className="text-sm text-accent font-semibold mt-2">{dayjs(stack.$createdAt).fromNow()}</p>
+    <div className="w-[350px] border px-2 pt-5 bg-accent text-background rounded-2xl">
+      <h2 className="text-4xl  tracking-tighter font-bold">{stack.title}</h2>
+      <p className="text-sm font-semibold mt-2">
+        {dayjs(stack.$createdAt).fromNow()}
+      </p>
       {isLoadingCards ? (
-        <div>Loading.....</div>
+        <div className="space-y-4">
+          <Skeleton className="h-14 w-full bg-stone-300" />
+          <Skeleton className="h-14 w-full bg-stone-300" />
+          <Skeleton className="h-14 w-full bg-stone-300" />
+          <Skeleton className="h-14 w-full bg-stone-300" />
+          <Skeleton className="h-14 w-full bg-stone-300" />
+          <Skeleton className="h-14 w-full bg-stone-300" />
+        </div>
       ) : (
         <>
           {flashCards && flashCards.length > 0 ? (
             <div className={cn("flex flex-col gap-3 mt-5")}>
               {flashCards.map((x, i) => (
                 <li
-                  className="list-none text-lg line-clamp-1 cursor-pointer hover:bg-accent px-2 py-4 duration-500 focus:bg-accent rounded-lg"
+                  className="list-none text-lg line-clamp-1 cursor-pointer font-bold px-2 py-4 duration-500  rounded-lg bg-background text-primary"
                   tabIndex={0}
                 >
                   {x.front}

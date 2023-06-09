@@ -20,17 +20,23 @@ export const UserProvider = ({ children }: React.PropsWithChildren<{}>) => {
         setUser(user)
       } catch (e) {
         router.push("/login?error=unauthorized")
-      } finally {
-        setLoading(false)
       }
+      const timer = setTimeout(() => {
+        setLoading(false)
+      }, 500)
+
+      return () => clearTimeout(timer)
     })()
   }, [router, setUser])
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen">
+      <div className="flex h-screen items-center justify-center">
         <Player
-          src={"https://assets1.lottiefiles.com/packages/lf20_poqmycwy.json"}
+          autoplay
+          loop
+          className="aspect-video w-52 bg-transparent"
+          src={"https://assets4.lottiefiles.com/packages/lf20_RM6elkeGwr.json"}
         />
       </div>
     )

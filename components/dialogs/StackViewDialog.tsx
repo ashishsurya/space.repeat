@@ -41,11 +41,10 @@ export const StackViewDialog = ({
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent
         closeRef={deleteStackCloseRef}
-        className={cn("h-full w-full ", font.className)}
+        className={cn("h-screen w-screen ", font.className)}
       >
         <div className=" flex">
           <StackViewDialogSidebar stack={stack}/>
-
           <div className="flex-1"></div>
         </div>
       </DialogContent>
