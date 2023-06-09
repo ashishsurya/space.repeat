@@ -3,13 +3,12 @@ import {
   Client,
   Databases,
   ID,
-  Models,
   Permission,
   Query,
   Role,
 } from "appwrite"
 
-import {  Stack,FlashCard } from "./types"
+import { FlashCard, Stack } from "./types"
 
 const serverConfig = {
   endpoint: process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT!,
@@ -87,4 +86,4 @@ const api = {
   },
 }
 
-export const appwrite = { account, database, api }
+export const appwrite = { account, api, client }

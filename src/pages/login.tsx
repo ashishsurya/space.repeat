@@ -1,11 +1,24 @@
+import { useEffect } from "react"
 import Head from "next/head"
+import { useRouter } from "next/router"
+import { toast } from "react-hot-toast"
 
 import { SocialLoginButton } from "@/components/SocialLoginButton"
 import { Logo } from "@/components/logo"
 
 const LoginPage = () => {
+  const router = useRouter()
+  const { error } = router.query
+
+  useEffect(() => {
+    if (error) {
+      toast.error("Not able to login, please try again.")
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
-    <div className="bg- flex min-h-screen items-center justify-center lg:bg-[url('/login-background.svg')]  bg-no-repeat bg-cover">
+    <div className="bg- flex min-h-screen items-center justify-center bg-cover  bg-no-repeat lg:bg-[url('/login-background.svg')]">
       <Head>
         <title>Login &middot; space.repeat</title>
       </Head>
@@ -17,9 +30,7 @@ const LoginPage = () => {
           Login for a revolution<br></br>in your{" "}
           <span className="text-primary">memory game</span>.
         </h1>
-        <p className="text-muted-foreground text-center">
-          You can login with any of the social media provider.
-        </p>
+
         <SocialLoginButton provider="google">
           Sign in with Google
         </SocialLoginButton>

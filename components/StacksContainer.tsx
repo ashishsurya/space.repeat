@@ -58,10 +58,7 @@ const Stacks = () => {
   if (isLoading) {
     return (
       <div className=" flex flex-row flex-wrap items-center gap-8 lg:mx-20 ">
-        {Array(20).map((_, i) => {
-          console.log(i)
-          return (<Skeleton key={i} className="aspect-[3/2] w-[300px]" />)
-        })}
+        <p>loading......</p>
       </div>
     )
   }
@@ -77,7 +74,7 @@ const Stacks = () => {
           </AnimatePresence>
         </div>
       ) : (
-        <div className="flex items-center justify-center flex-1">
+        <div className="flex flex-1 items-center justify-center">
           <NewStackDialog>
             <Image
               className="cursor-pointer"
