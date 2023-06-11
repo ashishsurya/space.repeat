@@ -6,7 +6,6 @@ import { Toaster } from "react-hot-toast"
 import { QueryClient, QueryClientProvider } from "react-query"
 import { RecoilRoot } from "recoil"
 
-
 export const font = DM_Mono({
   subsets: ["latin"],
   weight: ["300", "400", "500"],
@@ -14,21 +13,20 @@ export const font = DM_Mono({
 
 const client = new QueryClient({
   defaultOptions: {
-    queries: {
-    },
+    queries: {},
   },
 })
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
-      <RecoilRoot>
-        <QueryClientProvider client={client}>
-          <div className={`${font.className} min-h-screen `}>
-            <Toaster position="top-center" />
-            <Component {...pageProps} />
-          </div>
-        </QueryClientProvider>
-      </RecoilRoot>
+    <RecoilRoot>
+      <QueryClientProvider client={client}>
+        <div className={`${font.className} min-h-screen `}>
+          <Toaster position="top-center" />
+          <Component {...pageProps} />
+        </div>
+      </QueryClientProvider>
+    </RecoilRoot>
   )
 }
 

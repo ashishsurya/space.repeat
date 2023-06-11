@@ -18,9 +18,13 @@ module.exports = {
         secondary: "var(--color-secondary)",
         accent: "var(--color-accent)",
         background: "var(--color-background)",
-        text : "var(--color-text)",
-      }
+        text: "var(--color-text)",
+      },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    require("@kamona/tailwindcss-perspective"),
+    require("tailwind-children"),
+  ],
 }

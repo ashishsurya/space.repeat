@@ -21,3 +21,7 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
+
+.react-card-flipper {
+  perspective: 1000px;
+}
