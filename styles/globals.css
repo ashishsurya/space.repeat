@@ -20,6 +20,10 @@
     @apply bg-background text-text;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
+
+  kbd {
+    @apply px-2 py-1.5 text-xs font-semibold text-background bg-primary border border-gray-200 rounded-lg ;
+  }
 }
 
 .react-card-flipper {

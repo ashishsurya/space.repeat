@@ -1,12 +1,12 @@
 import type { AppType } from "next/app"
-import { DM_Mono } from "next/font/google"
+import { JetBrains_Mono } from "next/font/google"
 
 import "@/styles/globals.css"
 import { Toaster } from "react-hot-toast"
 import { QueryClient, QueryClientProvider } from "react-query"
 import { RecoilRoot } from "recoil"
 
-export const font = DM_Mono({
+export const font = JetBrains_Mono({
   subsets: ["latin"],
   weight: ["300", "400", "500"],
 })
