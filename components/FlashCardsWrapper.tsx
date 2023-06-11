@@ -5,7 +5,9 @@ import { useRecoilState } from "recoil"
 import { FlashCardsPlayer } from "./FlashCardsPlayer"
 
 export const FlashCardsWrapper = ({}: {}) => {
-  const [flashCards, _] = useRecoilState(flashCardsAtom)
+  const [flashCards, _] = useRecoilState(flashCardsAtom);
+
+  
 
   if (flashCards && flashCards.length > 0) {
     return <FlashCardsPlayer flashCards={flashCards} />

@@ -42,7 +42,6 @@ export const FlashCardsPlayer = ({
   }, [n])
 
   const card = useMemo(() => flashCards[index], [flashCards, index])
-
   return (
     <div className="flex items-center  flex-1 relative">
       <div className="absolute top-2 w-full justify-center  flex items-center gap-5">

@@ -84,6 +84,14 @@ const api = {
       { ..._opts }
     )
   },
+
+  deleteFlashCard: async (_opts: { id: string }) => {
+    return database.deleteDocument(
+      serverConfig.databaseId,
+      serverConfig.flashCardsCollectionId,
+      _opts.id
+    )
+  },
 }
 
 export const appwrite = { account, api, client }
