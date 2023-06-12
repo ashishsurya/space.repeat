@@ -35,7 +35,7 @@ export const StackViewDialogSidebar = ({
   })
 
   return (
-    <div className="w-[350px] min-w-fit rounded-2xl border bg-accent px-2 pt-5 text-background overflow-auto">
+    <div className="w-[350px] min-w-fit rounded-2xl border bg-accent px-2 pt-5 text-background overflow-auto relative">
       <h2 className="text-4xl  font-bold tracking-tighter">{stack.title}</h2>
       <p className="mt-2 text-sm font-semibold">
         {dayjs(stack.$createdAt).fromNow()}
@@ -59,22 +59,20 @@ export const StackViewDialogSidebar = ({
               >
                 + Add New FlashCard
               </Button>
-              <div
-                className={cn(
-                  "mt-5 flex h-full flex-col gap-3 overflow-y-scroll"
-                )}
-              >
-                {flashCards.map((x) => (
-                  <SidebarFlashCard
-                    x={x}
-                    key={x.$id}
-                    deleteFlashCard={mutate}
-                  />
-                ))}
+              <div className="overflow-scroll">
+                <div className={cn("mt-5 flex h-full flex-col gap-3 ")}>
+                  {flashCards.map((x) => (
+                    <SidebarFlashCard
+                      x={x}
+                      key={x.$id}
+                      deleteFlashCard={mutate}
+                    />
+                  ))}
+                </div>
               </div>
             </div>
           ) : (
-            <div className="flex flex-col justify-center pb-20  ">
+            <div className="flex flex-col justify-center   h-fit mt-20">
               <button
                 onClick={() => setNewFlashDialog({ isOpen: true })}
                 className="flex cursor-pointer flex-col items-center gap-3 rounded-lg focus:border focus:border-background focus:outline-none"
@@ -114,17 +112,21 @@ const SidebarFlashCard = ({
   return (
     <div
       key={x.$id}
-      className="group line-clamp-1 cursor-pointer list-none  rounded-lg px-2 py-4  text-lg font-bold  duration-500 hover:bg-primary flex"
+      className="group line-clamp-1 cursor-pointer list-none  rounded-lg px-2 py-4  font-bold  duration-500  flex items-center"
       tabIndex={0}
-      
     >
-      <p className="line-clamp-1 flex-1 text-ellipsis">{x.front}</p>
-      <div className="hidden group-hover:inline-flex">
-        <Button>
-          <Edit2 className="w-5 h-5"/>
+      <p className="line-clamp-1 flex-1 text-ellipsis text-xl p-2">{x.front}</p>
+      <div className="hidden group-hover:inline-flex gap-4 pr-4">
+        <Button className="p-2" variant={"ghost"} title="edit the flashcard">
+          <Edit2 className="w-5 h-5" />
         </Button>
-        <Button onClick={() => deleteFlashCard({ id: x.$id })}>
-          <Delete className="h-5 w-5"/>
+        <Button
+          title="delete the flashcard"
+          className="p-2"
+          variant={"ghost"}
+          onClick={() => deleteFlashCard({ id: x.$id })}
+        >
+          <Delete className="h-5 w-5" />
         </Button>
       </div>
     </div>
