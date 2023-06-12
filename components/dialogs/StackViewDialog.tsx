@@ -14,6 +14,7 @@ import { cn } from "@/lib/utils"
 
 import { FlashCardsWrapper } from "../FlashCardsWrapper"
 import { StackViewDialogSidebar } from "../StackViewDialogSidebar"
+import { NewFlashCardDialog } from "./NewFlashCardDialog"
 
 export const StackViewDialog = ({
   children,
@@ -59,7 +60,7 @@ export const StackViewDialog = ({
     return () => {
       setFlashCards(null)
     }
-  }, [])
+  }, [setFlashCards])
 
   return (
     <Transition appear show={currentStack !== null} as={Fragment}>
@@ -81,6 +82,7 @@ export const StackViewDialog = ({
         </Transition.Child>
 
         <div className="fixed inset-0 h-screen w-screen bg-background">
+          <NewFlashCardDialog />
           <div className=" flex h-full w-full gap-5 p-4">
             <StackViewDialogSidebar
               stack={stack}

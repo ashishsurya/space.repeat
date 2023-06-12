@@ -1,11 +1,14 @@
 import { RefObject } from "react"
 import { flashCardsAtom } from "@/src/atoms/flashcards.atom"
+import { newFlashDialogAtom } from "@/src/atoms/newFlashDialog.atom"
+import { currentStackAtom } from "@/src/atoms/stack.atom"
+import { stacksAtom } from "@/src/atoms/stacks.atom"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Loader2 } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { useMutation } from "react-query"
 import ReactTextareaAutosize from "react-textarea-autosize"
-import { useSetRecoilState } from "recoil"
+import { useRecoilState, useSetRecoilState } from "recoil"
 import { z } from "zod"
 
 import { appwrite } from "@/lib/appwrite"
@@ -23,14 +26,10 @@ const newFlashCardFormSchema = z.object({
     .max(100, "Answer of the flashcard cannot be more than 100 characters"),
 })
 
-export const NewFlashCardForm = ({
-  stack_id,
-  newFlashCardDialogCloseRef,
-}: {
-  stack_id: string
-  newFlashCardDialogCloseRef: RefObject<HTMLButtonElement>
-}) => {
+export const NewFlashCardForm = () => {
   const setFlashCards = useSetRecoilState(flashCardsAtom)
+  const [stack] = useRecoilState(currentStackAtom)
+  const [_, setNewFlashcardDialog] = useRecoilState(newFlashDialogAtom)
   const {
     register,
     handleSubmit,
@@ -53,14 +52,14 @@ export const NewFlashCardForm = ({
         }
       })
 
-      newFlashCardDialogCloseRef.current?.click()
+      setNewFlashcardDialog({ isOpen: false })
     },
   })
 
   const handleNewFlashCard = (
     values: z.infer<typeof newFlashCardFormSchema>
   ) => {
-    mutate({ ...values, stack_id: stack_id })
+    mutate({ ...values, stack_id: stack?.$id! })
   }
 
   return (
@@ -82,7 +81,7 @@ export const NewFlashCardForm = ({
         className="w-full resize-none border-b border-primary bg-transparent   py-4 pb-2 text-2xl placeholder:p-0 focus:border-b-2 focus:outline-none "
       />
       <Button className="self-start" disabled={isLoading}>
-        {isLoading ? <Loader2 className="w-5 h-5 animate-spin"/> : "Create"}
+        {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : "Create"}
       </Button>
     </form>
   )

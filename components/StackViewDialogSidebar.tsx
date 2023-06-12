@@ -1,9 +1,11 @@
 import { flashCardsAtom } from "@/src/atoms/flashcards.atom"
+import { newFlashDialogAtom } from "@/src/atoms/newFlashDialog.atom"
+import { Player } from "@lottiefiles/react-lottie-player"
 import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
 import { Delete, Edit2 } from "lucide-react"
 import { UseMutateFunction, useMutation } from "react-query"
-import { useRecoilState } from "recoil"
+import { useRecoilState, useSetRecoilState } from "recoil"
 
 import { appwrite } from "@/lib/appwrite"
 import type { FlashCard, Stack } from "@/lib/types"
@@ -22,6 +24,7 @@ export const StackViewDialogSidebar = ({
   stack: Stack
 }) => {
   const [flashCards, setFlashCards] = useRecoilState(flashCardsAtom)
+  const setNewFlashDialog = useSetRecoilState(newFlashDialogAtom)
 
   const { mutate } = useMutation(appwrite.api.deleteFlashCard, {
     onSuccess: (_, { id }) => {
@@ -32,7 +35,7 @@ export const StackViewDialogSidebar = ({
   })
 
   return (
-    <div className="min-w-fit w-[350px] rounded-2xl border bg-accent px-2 pt-5 text-background">
+    <div className="w-[350px] min-w-fit rounded-2xl border bg-accent px-2 pt-5 text-background overflow-auto">
       <h2 className="text-4xl  font-bold tracking-tighter">{stack.title}</h2>
       <p className="mt-2 text-sm font-semibold">
         {dayjs(stack.$createdAt).fromNow()}
@@ -49,15 +52,44 @@ export const StackViewDialogSidebar = ({
       ) : (
         <>
           {flashCards && flashCards.length > 0 ? (
-            <div className={cn("mt-5 flex flex-col gap-3")}>
-              {flashCards.map((x) => (
-                <SidebarFlashCard x={x} key={x.$id} deleteFlashCard={mutate} />
-              ))}
+            <div className="overflow-auto flex flex-col mt-3">
+              <Button
+                onClick={() => setNewFlashDialog({ isOpen: true })}
+                variant={"outline"}
+              >
+                + Add New FlashCard
+              </Button>
+              <div
+                className={cn(
+                  "mt-5 flex h-full flex-col gap-3 overflow-y-scroll"
+                )}
+              >
+                {flashCards.map((x) => (
+                  <SidebarFlashCard
+                    x={x}
+                    key={x.$id}
+                    deleteFlashCard={mutate}
+                  />
+                ))}
+              </div>
             </div>
           ) : (
-            <>
-              <p>No flashcards</p>
-            </>
+            <div className="flex flex-col justify-center pb-20  ">
+              <button
+                onClick={() => setNewFlashDialog({ isOpen: true })}
+                className="flex cursor-pointer flex-col items-center gap-3 rounded-lg focus:border focus:border-background focus:outline-none"
+              >
+                <Player
+                  className="aspect-square w-[300px]"
+                  autoplay
+                  loop
+                  src={
+                    "https://assets4.lottiefiles.com/packages/lf20_dhtOaoOnRb.json"
+                  }
+                />
+                <p className="text-sm">No Flashcards , click here to add one</p>
+              </button>
+            </div>
           )}
         </>
       )}
@@ -82,16 +114,17 @@ const SidebarFlashCard = ({
   return (
     <div
       key={x.$id}
-      className="line-clamp-1 cursor-pointer list-none rounded-lg  px-2 py-4 text-lg  font-bold hover:bg-primary  duration-500 group"
+      className="group line-clamp-1 cursor-pointer list-none  rounded-lg px-2 py-4  text-lg font-bold  duration-500 hover:bg-primary flex"
       tabIndex={0}
+      
     >
-      <p className="flex-1 text-ellipsis line-clamp-1">{x.front}</p>
+      <p className="line-clamp-1 flex-1 text-ellipsis">{x.front}</p>
       <div className="hidden group-hover:inline-flex">
         <Button>
-          <Edit2 />
+          <Edit2 className="w-5 h-5"/>
         </Button>
         <Button onClick={() => deleteFlashCard({ id: x.$id })}>
-          <Delete />
+          <Delete className="h-5 w-5"/>
         </Button>
       </div>
     </div>
