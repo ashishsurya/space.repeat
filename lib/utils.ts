@@ -10,6 +10,6 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export const getHost = () => process.env.NODE_ENV === "development" ? "http://localhost:3000/" : "";
+export const getHost = () => window.origin;
 
 export const displayDateTime = (date : string) => dayjs(date).fromNow(true)
