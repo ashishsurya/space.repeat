@@ -84,10 +84,7 @@ export const StackViewDialog = ({
         <div className="fixed inset-0 h-screen w-screen bg-background">
           <NewFlashCardDialog />
           <div className=" flex h-full w-full gap-5 p-4">
-            <StackViewDialogSidebar
-              stack={stack}
-              isLoadingCards={isLoadingCards}
-            />
+            <StackViewDialogSidebar isLoadingCards={isLoadingCards} />
             <FlashCardsWrapper />
           </div>
         </div>

@@ -11,13 +11,11 @@ import { NewFlashCardForm } from "../forms/new-flashcard"
 export const NewFlashCardDialog = () => {
   const [newFlashDialog, setNewFlashDialog] = useRecoilState(newFlashDialogAtom)
 
-  console.log("I AM OPEN")
-
   return (
     <Transition appear show={newFlashDialog.isOpen} as={Fragment}>
       <Dialog
         as="div"
-        className={cn("relative z-[999] ", font.className)}
+        className={cn("relative  z-[20]", font.className)}
         onClose={() => setNewFlashDialog({ isOpen: false })}
       >
         <Transition.Child

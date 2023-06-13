@@ -16,6 +16,11 @@
   * {
     @apply border-accent;
   }
+
+  *:focus {
+    @apply focus:outline-none
+  }
+
   body {
     @apply bg-background text-text;
     font-feature-settings: "rlig" 1, "calt" 1;
