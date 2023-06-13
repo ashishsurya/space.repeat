@@ -4,6 +4,13 @@ import { currentStackAtom } from "@/src/atoms/stack.atom"
 import { stacksAtom } from "@/src/atoms/stacks.atom"
 import { font } from "@/src/pages/_app"
 import { Dialog, Transition } from "@headlessui/react"
+import {
+  FolderClosedIcon,
+  ShieldCloseIcon,
+  SidebarCloseIcon,
+  X,
+  XCircle,
+} from "lucide-react"
 import { toast } from "react-hot-toast"
 import { useMutation, useQuery } from "react-query"
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil"
@@ -14,10 +21,10 @@ import { cn } from "@/lib/utils"
 
 import { FlashCardsWrapper } from "../FlashCardsWrapper"
 import { StackViewDialogSidebar } from "../StackViewDialogSidebar"
+import { Button } from "../ui/button"
 import { NewFlashCardDialog } from "./NewFlashCardDialog"
 
 export const StackViewDialog = ({
-  children,
   stack,
 }: React.PropsWithChildren<{ stack: Stack }>): React.JSX.Element => {
   const setStacks = useSetRecoilState(stacksAtom)
@@ -25,7 +32,6 @@ export const StackViewDialog = ({
   const [flashCards, setFlashCards] = useRecoilState(flashCardsAtom)
 
   // to close modal after deleting the stack
-  const deleteStackCloseRef = useRef<HTMLButtonElement>(null)
 
   const { isFetching: isLoadingCards } = useQuery(
     "flashcards-by-stack_id",
@@ -36,24 +42,11 @@ export const StackViewDialog = ({
       },
 
       onError() {
-        toast.error("Not able to load thr flashcards right now.")
+        toast.error("Not able to load the flashcards right now.")
       },
       refetchOnWindowFocus: false,
     }
   )
-
-  const { mutate, isLoading } = useMutation(appwrite.api.deleteStack, {
-    onSuccess() {
-      deleteStackCloseRef.current?.click()
-      setStacks((oldStacks) => {
-        if (!oldStacks) {
-          return null
-        } else {
-          return oldStacks.filter((s) => s.$id !== stack.$id)
-        }
-      })
-    },
-  })
 
   // clears the flashcards state when stack-view-dialog closes
   useEffect(() => {
@@ -82,6 +75,15 @@ export const StackViewDialog = ({
         </Transition.Child>
 
         <div className="fixed inset-0 h-screen w-screen bg-background">
+          <div className="absolute right-4 top-8 z-[9999]">
+            <Button
+              variant={"ghost"}
+              onClick={() => setCurrentStack(null)}
+              className="hover:text-white group p-4"
+            >
+              <X className="group-hover:rotate-180 duration-500 w-7 h-7" />
+            </Button>
+          </div>
           <NewFlashCardDialog />
           <div className=" flex h-full w-full gap-5 p-4">
             <StackViewDialogSidebar isLoadingCards={isLoadingCards} />

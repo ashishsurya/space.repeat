@@ -44,29 +44,43 @@ export const FlashCardsPlayer = ({
   const card = useMemo(() => flashCards[index], [flashCards, index])
   return (
     <div className="flex items-center  flex-1 relative">
-      <div className="absolute top-2 w-full justify-center  flex items-center gap-5">
-        <div className="flex w-fit flex-col gap-2 items-center">
-          <kbd className="">J</kbd>
-          <p className="text-xs">Previous Card</p>
-        </div>
-        <div className="flex w-fit flex-col gap-2 items-center">
-          <kbd className="">K</kbd>
-          <p className="text-xs">Flip the Card</p>
-        </div>
-        <div className="flex w-fit flex-col gap-2 items-center">
-          <kbd className="">L</kbd>
-          <p className="text-xs">Next Card</p>
-        </div>
-      </div>
-      <Button className="shadow-xl" disabled={index === 0} onClick={() => setIndex((i) => i - 1)}>
+      <KeyboardShortcuts />
+      <Button
+        className="shadow-xl"
+        disabled={index === 0}
+        onClick={() => setIndex((i) => i - 1)}
+      >
         <ArrowLeft className="" />
       </Button>
       <div className="flex-1 flex flex-col items-center gap-6 ">
         <FlippableCard card={card} />
       </div>
-      <Button onClick={() => setIndex((i) => i + 1)} className="shadow-xl" disabled={index === n - 1}>
+      <Button
+        onClick={() => setIndex((i) => i + 1)}
+        className="shadow-xl"
+        disabled={index === n - 1}
+      >
         <ArrowRight className="" />
       </Button>
+    </div>
+  )
+}
+
+const KeyboardShortcuts = () => {
+  return (
+    <div className="absolute top-2 w-full justify-center  flex items-center gap-5">
+      <div className="flex w-fit flex-col gap-2 items-center">
+        <kbd className="">J</kbd>
+        <p className="text-xs">Previous Card</p>
+      </div>
+      <div className="flex w-fit flex-col gap-2 items-center">
+        <kbd className="">K</kbd>
+        <p className="text-xs">Flip the Card</p>
+      </div>
+      <div className="flex w-fit flex-col gap-2 items-center">
+        <kbd className="">L</kbd>
+        <p className="text-xs">Next Card</p>
+      </div>
     </div>
   )
 }
