@@ -6,7 +6,7 @@ import { Menu } from "@headlessui/react"
 import { Player } from "@lottiefiles/react-lottie-player"
 import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
-import { Delete, Edit2, MoreVertical } from "lucide-react"
+import { ArrowLeft, Delete, Edit2, MoreVertical } from "lucide-react"
 import { UseMutateFunction, useMutation } from "react-query"
 import {
   SetterOrUpdater,
@@ -56,27 +56,28 @@ export const StackViewDialogSidebar = ({
   )
 
   return (
-    <div className="w-[350px] min-w-fit rounded-2xl border bg-accent  text-background overflow-auto relative">
-      <SidebarStackMetadata stack={stack} deleteStack={deleteStack} />
+    <div className="w-[350px] min-w-fit rounded-2xl border bg-accent  text-background  relative overflow-auto">
+      <div className="p-4  bg-primary flex flex-col gap-4  top-0 sticky w-full rounded-t-2xl">
+        <StackViewCloseButton onClick={() => setStack(null)} />
+        <SidebarStackMetadata stack={stack} deleteStack={deleteStack} />
+        <Button
+          onClick={() => setNewFlashDialog({ isOpen: true })}
+          variant={"default"}
+          className="focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus:tracking-wider focus:font-bold focus:border border-background mx-8"
+        >
+          + Add New FlashCard
+        </Button>
+      </div>
       {isLoadingCards ? (
         <SidebarLoadingSkeleton />
       ) : (
         <>
           {flashCards && flashCards.length > 0 ? (
-            <div className="overflow-auto flex flex-col mt-2">
-              <Button
-                onClick={() => setNewFlashDialog({ isOpen: true })}
-                variant={"default"}
-                className="focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus:tracking-wider focus:font-bold focus:border border-background mx-8"
-              >
-                + Add New FlashCard
-              </Button>
-              <div className="overflow-scroll">
+            <div className=" flex flex-col mt-2  overflow-auto scroll">
                 <SidebarFlashcards
                   flashCards={flashCards}
                   mutate={deleteFlashCard}
                 />
-              </div>
             </div>
           ) : (
             <div className="flex flex-col justify-center   h-fit mt-20">
@@ -103,6 +104,19 @@ export const StackViewDialogSidebar = ({
     </div>
   )
 }
+
+const StackViewCloseButton = ({ onClick }: { onClick: any }) => (
+  <button
+    onClick={onClick}
+    className=" flex gap-2 items-center top-2 left-4"
+  >
+    <ArrowLeft />
+    <p>Back to stacks</p>
+    <p className="bg-background text-xs px-2 rounded-lg text-primary text-center">
+      esc
+    </p>
+  </button>
+)
 
 const SidebarFlashcards = ({
   flashCards,
@@ -150,7 +164,7 @@ const SidebarStackMetadata = ({
     unknown
   >
 }) => (
-  <div className="flex group justify-between items-center bg-primary p-4">
+  <div className="flex group justify-between items-center">
     <div>
       <h2 className="text-4xl  font-bold tracking-tighter">{stack.title}</h2>
       <p className="mt-2 text-sm font-semibold">

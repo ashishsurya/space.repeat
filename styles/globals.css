@@ -13,12 +13,16 @@
 }
 
 @layer base {
+  *::-webkit-scrollbar {
+    display: none;
+  }
+
   * {
     @apply border-accent;
   }
 
   *:focus {
-    @apply focus:outline-none
+    @apply focus:outline-none;
   }
 
   body {
@@ -27,7 +31,7 @@
   }
 
   kbd {
-    @apply px-2 py-1.5 text-xs font-semibold text-background bg-primary border border-gray-200 rounded-lg ;
+    @apply px-2 py-1.5 text-xs font-semibold text-background bg-primary border border-gray-200 rounded-lg;
   }
 }
 

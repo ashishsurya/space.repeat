@@ -75,15 +75,7 @@ export const StackViewDialog = ({
         </Transition.Child>
 
         <div className="fixed inset-0 h-screen w-screen bg-background">
-          <div className="absolute right-4 top-8 z-[9999]">
-            <Button
-              variant={"ghost"}
-              onClick={() => setCurrentStack(null)}
-              className="hover:text-white group p-4"
-            >
-              <X className="group-hover:rotate-180 duration-500 w-7 h-7" />
-            </Button>
-          </div>
+          <div className="absolute right-4 top-8 z-[9999]"></div>
           <NewFlashCardDialog />
           <div className=" flex h-full w-full gap-5 p-4">
             <StackViewDialogSidebar isLoadingCards={isLoadingCards} />

@@ -13,7 +13,7 @@ export const FlashCardsPlayer = ({
   flashCards: FlashCard[]
 }) => {
   const [index, setIndex] = useState<number>(0)
-  const n = flashCards.length
+  const n = useMemo(() => flashCards.length, [flashCards])
   useEffect(() => {
     const handleClick = (e: KeyboardEvent) => {
       if (e.code === "KeyJ") {
@@ -40,6 +40,10 @@ export const FlashCardsPlayer = ({
       window.removeEventListener("keydown", handleClick)
     }
   }, [n])
+
+  useEffect(() => {
+    setIndex(i => i)
+  }, [flashCards])
 
   const card = useMemo(() => flashCards[index], [flashCards, index])
   return (
