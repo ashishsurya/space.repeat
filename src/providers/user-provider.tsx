@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 import { Player } from "@lottiefiles/react-lottie-player"
+import { Loader2 } from "lucide-react"
 import { useSetRecoilState } from "recoil"
 
 import { appwrite } from "@/lib/appwrite"
@@ -19,25 +20,17 @@ export const UserProvider = ({ children }: React.PropsWithChildren<{}>) => {
         const user = await appwrite.account.get()
         setUser(user)
       } catch (e) {
-        router.push("/login?error=unauthorized")
-      }
-      const timer = setTimeout(() => {
+        router.push("/login")
+      } finally {
         setLoading(false)
-      }, 500)
-
-      return () => clearTimeout(timer)
+      }
     })()
   }, [router, setUser])
 
   if (loading) {
     return (
       <div className="flex h-screen items-center justify-center">
-        <Player
-          autoplay
-          loop
-          className="aspect-video w-52 bg-transparent"
-          src={"https://assets4.lottiefiles.com/packages/lf20_RM6elkeGwr.json"}
-        />
+        <Loader2 className="animate-spin w-20 h-20 text-primary" />
       </div>
     )
   }
