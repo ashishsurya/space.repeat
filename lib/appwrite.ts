@@ -78,11 +78,12 @@ const api = {
     back_img_url?: string
     currUserId: string
   }) => {
+    const {currUserId , ...card} = _opts
     return database.createDocument<FlashCard>(
       serverConfig.databaseId,
       serverConfig.flashCardsCollectionId,
       ID.unique(),
-      { ..._opts },
+      { ...card },
       [
         Permission.read(Role.user(_opts.currUserId)),
         Permission.write(Role.user(_opts.currUserId)),

@@ -1,6 +1,4 @@
 import React, { useCallback } from "react"
-import { userAtom } from "@/src/atoms/user.atom"
-import { useRecoilState } from "recoil"
 
 import { appwrite } from "@/lib/appwrite"
 import { getHost } from "@/lib/utils"
@@ -11,8 +9,6 @@ export const SocialLoginButton = ({
   provider,
   children,
 }: React.PropsWithChildren<{ provider: "google" | "facebook" | "github" }>) => {
-  const [user, setUser] = useRecoilState(userAtom)
-
   const handleSocialLogin = useCallback(() => {
     try {
       appwrite.account.createOAuth2Session(
@@ -20,14 +16,13 @@ export const SocialLoginButton = ({
         `${getHost()}/app`,
         `${getHost()}/login`
       )
-    } catch (error) {}
+    } catch (error) {
+      console.log(error)
+    }
   }, [provider])
 
   return (
-    <Button
-      onClick={handleSocialLogin}
-      className="disabled:cursor-not-allowed"
-    >
+    <Button onClick={handleSocialLogin} className="disabled:cursor-not-allowed">
       {children}
     </Button>
   )
