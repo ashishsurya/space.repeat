@@ -76,12 +76,17 @@ const api = {
     stack_id: string
     front_img_url?: string
     back_img_url?: string
+    currUserId: string
   }) => {
     return database.createDocument<FlashCard>(
       serverConfig.databaseId,
       serverConfig.flashCardsCollectionId,
       ID.unique(),
-      { ..._opts }
+      { ..._opts },
+      [
+        Permission.read(Role.user(_opts.currUserId)),
+        Permission.write(Role.user(_opts.currUserId)),
+      ]
     )
   },
 
@@ -89,7 +94,8 @@ const api = {
     return database.deleteDocument(
       serverConfig.databaseId,
       serverConfig.flashCardsCollectionId,
-      _opts.id
+      _opts.id,
+      
     )
   },
 }

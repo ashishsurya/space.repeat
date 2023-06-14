@@ -3,12 +3,14 @@ import { flashCardsAtom } from "@/src/atoms/flashcards.atom"
 import { newFlashDialogAtom } from "@/src/atoms/newFlashDialog.atom"
 import { currentStackAtom } from "@/src/atoms/stack.atom"
 import { stacksAtom } from "@/src/atoms/stacks.atom"
+import { userAtom } from "@/src/atoms/user.atom"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { Models } from "appwrite"
 import { Loader2 } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { useMutation } from "react-query"
 import ReactTextareaAutosize from "react-textarea-autosize"
-import { useRecoilState, useSetRecoilState } from "recoil"
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil"
 import { z } from "zod"
 
 import { appwrite } from "@/lib/appwrite"
@@ -30,6 +32,7 @@ export const NewFlashCardForm = () => {
   const setFlashCards = useSetRecoilState(flashCardsAtom)
   const [stack] = useRecoilState(currentStackAtom)
   const [_, setNewFlashcardDialog] = useRecoilState(newFlashDialogAtom)
+  const user = useRecoilValue(userAtom) as Models.User<Models.Preferences>
   const {
     register,
     handleSubmit,
@@ -59,7 +62,7 @@ export const NewFlashCardForm = () => {
   const handleNewFlashCard = (
     values: z.infer<typeof newFlashCardFormSchema>
   ) => {
-    mutate({ ...values, stack_id: stack?.$id! })
+    mutate({ ...values, stack_id: stack?.$id!, currUserId: user.$id })
   }
 
   return (
