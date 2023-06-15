@@ -31,9 +31,18 @@
   }
 
   kbd {
-    @apply px-2 py-1.5 text-xs font-semibold text-background bg-primary border border-gray-200 rounded-lg;
+    @apply px-2 py-1.5 text-xs font-semibold text-white bg-transparent border border-gray-200 rounded-lg;
   }
+
+  
 }
+
+#card-player-shortcuts :-webkit-full-screen {
+  top : 100px;
+  color: white;
+}
+
+
 
 .react-card-flipper {
   perspective: 1000px;

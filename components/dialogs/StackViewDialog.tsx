@@ -31,6 +31,8 @@ export const StackViewDialog = ({
   const [currentStack, setCurrentStack] = useRecoilState(currentStackAtom)
   const [flashCards, setFlashCards] = useRecoilState(flashCardsAtom)
 
+  const flashCardsWrapperRef = useRef<HTMLDivElement>(null)
+
   // to close modal after deleting the stack
 
   const { isFetching: isLoadingCards } = useQuery(
@@ -55,6 +57,17 @@ export const StackViewDialog = ({
     }
   }, [setFlashCards])
 
+  const handleFocusMode = () => {
+    if (flashCardsWrapperRef.current) {
+      console.log("BEGIN")
+      flashCardsWrapperRef.current.requestFullscreen()
+      console.log("END")
+    } else {
+      toast.error("Add some flashcards")
+    }
+    
+  }
+
   return (
     <Transition appear show={currentStack !== null} as={Fragment}>
       <Dialog
@@ -78,8 +91,11 @@ export const StackViewDialog = ({
           <div className="absolute right-4 top-8 z-[9999]"></div>
           <NewFlashCardDialog />
           <div className=" flex h-full w-full gap-5 p-4">
-            <StackViewDialogSidebar isLoadingCards={isLoadingCards} />
-            <FlashCardsWrapper />
+            <StackViewDialogSidebar
+              handleFocusMode={handleFocusMode}
+              isLoadingCards={isLoadingCards}
+            />
+            <FlashCardsWrapper ref={flashCardsWrapperRef} />
           </div>
         </div>
       </Dialog>
