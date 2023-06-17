@@ -1,23 +1,7 @@
-# next-template
+# space.repeat
 
-A Next.js 13 template for building apps with Radix UI and Tailwind CSS.
+Introducing space.repeat, the game-changing flashcard app that will elevate your exam preparation to new heights. With this app, creating and organizing your stack of flashcards has never been easier. Say goodbye to the hassle of traditional paper flashcards and hello to a streamlined, digital solution.
 
-## Usage
 
-```bash
-npx create-next-app -e https://github.com/shadcn/next-template
-```
-
-## Features
-
-- Radix UI Primitives
-- Tailwind CSS
-- Fonts with `next/font`
-- Icons from [Lucide](https://lucide.dev)
-- Dark mode with `next-themes`
-- Automatic import sorting with `@ianvs/prettier-plugin-sort-imports`
-- Tailwind CSS class sorting, merging and linting.
-
-## License
-
-Licensed under the [MIT license](https://github.com/shadcn/ui/blob/main/LICENSE.md).
+## Blog 
+https://ashishsurya.hashnode.dev/space-repeat
